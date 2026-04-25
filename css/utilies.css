@@ -208,3 +208,63 @@
         border-radius: 12px;
     }
 }
+
+/* =============================================
+   ANIMAÇÕES — Hero entrance + Scroll reveal
+   ============================================= */
+
+/* ── Hero: estado inicial (invisível) ── */
+.hero-hidden {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+        opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Hero: estado final (visível) ── */
+.hero-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ── Scroll reveal: estado inicial ── */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition:
+        opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Scroll reveal: estado visível ── */
+.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Variação mais sutil para elementos horizontais (foto, svg) */
+#about .photo-about.reveal,
+#about svg.reveal {
+    transform: translateX(-20px);
+}
+
+#about .text-about.reveal {
+    transform: translateX(20px);
+}
+
+#about .photo-about.revealed,
+#about svg.revealed,
+#about .text-about.revealed {
+    transform: translate(0);
+}
+
+/* Garante que elementos com transition-delay (stagger) funcionem */
+.projects-blocks.reveal,
+.stacks-blocks.reveal {
+    transition:
+        opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
