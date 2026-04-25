@@ -170,3 +170,41 @@
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(6px); }
 }
+
+/* =============================================
+   UTILITÁRIOS — RESPONSIVIDADE
+   ============================================= */
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .shine {
+        padding: 4px 8px;
+        font-size: inherit;
+    }
+}
+
+/* Smartphone */
+@media (max-width: 768px) {
+    .header-inner.liquid-glass {
+        border-radius: 16px;
+    }
+
+    .shine {
+        padding: 3px 7px;
+        box-shadow: 3px 3px 0px #C8BCA8;
+    }
+
+    .shadow {
+        box-shadow: 3px 3px 0px #C8BCA8;
+    }
+
+    .arrow-wrapper {
+        margin-top: 50px;
+        width: 44px;
+        height: 44px;
+    }
+
+    .blocks-liquid-glass {
+        border-radius: 12px;
+    }
+}
