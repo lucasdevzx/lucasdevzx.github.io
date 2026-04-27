@@ -1,17 +1,6 @@
-document.addEventListener("DOMContentLoaded", () => {
+(function () {
 
-    const heroChildren = document.querySelectorAll(
-        ".hero .name-section, .hero hr, .hero .social-info, .hero .arrow-wrapper"
-    );
-
-    heroChildren.forEach((el, i) => {
-        el.classList.add("hero-hidden");
-        setTimeout(() => {
-            el.classList.add("hero-visible");
-        }, 120 + i * 130);
-    });
-
-    const revealTargets = document.querySelectorAll([
+    var SELECTORS = [
         "#about .photo-about",
         "#about svg.lucide-braces",
         "#about .text-about",
@@ -28,32 +17,55 @@ document.addEventListener("DOMContentLoaded", () => {
         ".contact-badges-container",
         ".footer-infos",
         ".footer-credits",
-    ].join(", "));
+    ].join(", ");
 
-    revealTargets.forEach(el => {
-        el.classList.add("reveal");
-    });
+    function initReveal() {
+        var targets = Array.prototype.slice.call(document.querySelectorAll(SELECTORS));
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("revealed");
-                observer.unobserve(entry.target);
-            }
+        if (!("IntersectionObserver" in window)) {
+            targets.forEach(function (el) { el.classList.add("revealed"); });
+            return;
+        }
+
+        /* Aplica o delay em cascata usando variável CSS */
+        document.querySelectorAll(".projects-blocks").forEach(function (el, i) {
+            el.style.setProperty('--reveal-delay', (i * 100) + "ms");
         });
-    }, {
-        threshold: 0.12,
-        rootMargin: "0px 0px -40px 0px"
-    });
+        document.querySelectorAll(".stacks-blocks").forEach(function (el, i) {
+            el.style.setProperty('--reveal-delay', (i * 80) + "ms");
+        });
 
-    revealTargets.forEach(el => observer.observe(el));
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    var el = entry.target;
+                    el.classList.add("revealed");
 
-    document.querySelectorAll(".projects-blocks").forEach((el, i) => {
-        el.style.transitionDelay = `${i * 80}ms`;
-    });
+                    /* LIMPEZA: Remove as classes após a animação (aprox 2s).
+                       Isso é essencial para destravar o hover natural do CSS! */
+                    setTimeout(function () {
+                        el.classList.remove("reveal", "revealed");
+                        el.style.removeProperty('--reveal-delay');
+                    }, 2000);
 
-    document.querySelectorAll(".stacks-blocks").forEach((el, i) => {
-        el.style.transitionDelay = `${i * 50}ms`;
-    });
+                    observer.unobserve(el);
+                }
+            });
+        }, {
+            threshold: 0,
+            rootMargin: "0px 0px -15% 0px" /* Dispara um pouco antes de aparecer na tela */
+        });
 
-});
+        targets.forEach(function (el) {
+            el.classList.add("reveal");
+            observer.observe(el);
+        });
+    }
+
+    if (document.readyState !== "loading") {
+        initReveal();
+    } else {
+        document.addEventListener("DOMContentLoaded", initReveal);
+    }
+
+}());

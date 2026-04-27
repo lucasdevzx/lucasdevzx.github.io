@@ -90,6 +90,7 @@
     opacity: 0.7;
 }
 
+/* A classe shadow original que mantem os blocos altos */
 .shadow {
     box-shadow: 6px 6px 0px #C8BCA8;
 }
@@ -210,61 +211,83 @@
 }
 
 /* =============================================
-   ANIMAÇÕES — Hero entrance + Scroll reveal
+   ANIMAÇÕES — Hero entrance
    ============================================= */
 
-/* ── Hero: estado inicial (invisível) ── */
-.hero-hidden {
-    opacity: 0;
-    transform: translateY(22px);
-    transition:
-        opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+@keyframes heroFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* ── Hero: estado final (visível) ── */
-.hero-visible {
-    opacity: 1;
-    transform: translateY(0);
+.hero .name-section {
+    animation: heroFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 0.1s;
 }
 
-/* ── Scroll reveal: estado inicial ── */
+.hero hr {
+    animation: heroFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 0.25s;
+}
+
+.hero .social-info {
+    animation: heroFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 0.4s;
+}
+
+.hero .arrow-wrapper {
+    animation: heroFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 0.55s;
+}
+
+/* =============================================
+   ANIMAÇÕES — Scroll reveal via Keyframes
+   ============================================= */
+
+@keyframes scrollFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scrollFadeRight {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scrollFadeLeft {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Esconde inicialmente via opacidade */
 .reveal {
     opacity: 0;
-    transform: translateY(30px);
-    transition:
-        opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ── Scroll reveal: estado visível ── */
+/* Inicia a animação quando a classe é engatilhada */
 .revealed {
-    opacity: 1;
-    transform: translateY(0);
+    animation: scrollFadeUp 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: var(--reveal-delay, 0ms);
 }
 
-/* Variação mais sutil para elementos horizontais (foto, svg) */
-#about .photo-about.reveal,
-#about svg.reveal {
-    transform: translateX(-20px);
+/* Direções personalizadas para a seção About */
+#about .photo-about.revealed {
+    animation-name: scrollFadeRight;
 }
-
-#about .text-about.reveal {
-    transform: translateX(20px);
+#about svg.lucide-braces.revealed {
+    animation-name: scrollFadeUp;
 }
-
-#about .photo-about.revealed,
-#about svg.revealed,
 #about .text-about.revealed {
-    transform: translate(0);
-}
-
-/* Garante que elementos com transition-delay (stagger) funcionem */
-.projects-blocks.reveal,
-.stacks-blocks.reveal {
-    transition:
-        opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-        box-shadow 0.2s ease,
-        transform 0.2s ease;
+    animation-name: scrollFadeLeft;
 }
