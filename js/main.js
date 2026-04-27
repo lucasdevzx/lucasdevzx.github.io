@@ -1,5 +1,4 @@
 (function () {
-
     var SELECTORS = [
         "#about .photo-about",
         "#about svg.lucide-braces",
@@ -27,12 +26,12 @@
             return;
         }
 
-        /* Aplica o delay em cascata usando variável CSS */
+        // Delay em cascata (stagger) ligeiramente aumentado para ser mais perceptível
         document.querySelectorAll(".projects-blocks").forEach(function (el, i) {
-            el.style.setProperty('--reveal-delay', (i * 100) + "ms");
+            el.style.setProperty('--reveal-delay', (i * 150) + "ms");
         });
         document.querySelectorAll(".stacks-blocks").forEach(function (el, i) {
-            el.style.setProperty('--reveal-delay', (i * 80) + "ms");
+            el.style.setProperty('--reveal-delay', (i * 100) + "ms");
         });
 
         var observer = new IntersectionObserver(function (entries) {
@@ -41,19 +40,18 @@
                     var el = entry.target;
                     el.classList.add("revealed");
 
-                    /* LIMPEZA: Remove as classes após a animação (aprox 2s).
-                       Isso é essencial para destravar o hover natural do CSS! */
+                    // Limpeza de classes após 2.5s (ajustado para a animação mais lenta)
                     setTimeout(function () {
                         el.classList.remove("reveal", "revealed");
                         el.style.removeProperty('--reveal-delay');
-                    }, 2000);
+                    }, 2500);
 
                     observer.unobserve(el);
                 }
             });
         }, {
-            threshold: 0,
-            rootMargin: "0px 0px -15% 0px" /* Dispara um pouco antes de aparecer na tela */
+            threshold: 0.15, // Precisa de 15% do elemento visível
+            rootMargin: "-10% 0px -5% 0px" // Espera o elemento entrar mais na tela
         });
 
         targets.forEach(function (el) {
@@ -67,5 +65,4 @@
     } else {
         document.addEventListener("DOMContentLoaded", initReveal);
     }
-
 }());
