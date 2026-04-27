@@ -26,12 +26,11 @@
             return;
         }
 
-        // Delay em cascata (stagger) ligeiramente aumentado para ser mais perceptível
         document.querySelectorAll(".projects-blocks").forEach(function (el, i) {
-            el.style.setProperty('--reveal-delay', (i * 150) + "ms");
+            el.style.setProperty('--reveal-delay', (i * 180) + "ms");
         });
         document.querySelectorAll(".stacks-blocks").forEach(function (el, i) {
-            el.style.setProperty('--reveal-delay', (i * 100) + "ms");
+            el.style.setProperty('--reveal-delay', (i * 120) + "ms");
         });
 
         var observer = new IntersectionObserver(function (entries) {
@@ -40,23 +39,34 @@
                     var el = entry.target;
                     el.classList.add("revealed");
 
-                    // Limpeza de classes após 2.5s (ajustado para a animação mais lenta)
-                    setTimeout(function () {
-                        el.classList.remove("reveal", "revealed");
-                        el.style.removeProperty('--reveal-delay');
-                    }, 2500);
+                    // SÓ LIMPA SE NÃO FOR O FOOTER
+                    // Isso permite que o hover funcione nos blocos, mas o footer não suma
+                    if (!el.classList.contains('footer-credits')) {
+                        setTimeout(function () {
+                            el.classList.remove("reveal", "revealed");
+                            el.style.removeProperty('--reveal-delay');
+                        }, 3000);
+                    }
 
                     observer.unobserve(el);
                 }
             });
         }, {
-            threshold: 0.15, // Precisa de 15% do elemento visível
-            rootMargin: "-10% 0px -5% 0px" // Espera o elemento entrar mais na tela
+            threshold: 0.1,
+            rootMargin: "0px 0px -20px 0px"
         });
 
         targets.forEach(function (el) {
             el.classList.add("reveal");
             observer.observe(el);
+        });
+
+        // Garantia extra para o fim da página
+        window.addEventListener('scroll', function () {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 5) {
+                var footer = document.querySelector('.footer-credits');
+                if (footer) footer.classList.add('revealed');
+            }
         });
     }
 

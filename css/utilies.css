@@ -42,15 +42,10 @@
   100% { transform: scale(2.5); opacity: 0; }
 }
 
-/* ── Scrollbar ── */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background-color: #1E1C16; }
-::-webkit-scrollbar-thumb { background-color: #C8BCA8; border-radius: 10px; }
-
 /* ── Sombras e Blocos ── */
 .shadow {
     box-shadow: 6px 6px 0px #C8BCA8;
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s ease;
 }
 
 .blocks-liquid-glass {
@@ -60,13 +55,13 @@
   border-radius: 16px;
 }
 
-/* ── Hero Animação (Mais lenta e elegante) ── */
+/* ── Hero Animação ── */
 @keyframes heroFadeUp {
-    from { opacity: 0; transform: translateY(40px); }
+    from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
 }
 .hero .name-section, .hero hr, .hero .social-info, .hero .arrow-wrapper {
-    animation: heroFadeUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: heroFadeUp 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     opacity: 0;
 }
 .hero .name-section { animation-delay: 0.2s; }
@@ -74,32 +69,40 @@
 .hero .social-info { animation-delay: 0.6s; }
 .hero .arrow-wrapper { animation-delay: 0.8s; }
 
-/* ── Scroll Reveal System (Suavizado) ── */
+/* ── Scroll Reveal System (Lento e Elegante) ── */
 @keyframes scrollFadeUp {
-    from { opacity: 0; transform: translateY(50px); }
+    from { opacity: 0; transform: translateY(60px); }
     to { opacity: 1; transform: translateY(0); }
 }
 @keyframes scrollFadeRight {
-    from { opacity: 0; transform: translateX(-50px); }
+    from { opacity: 0; transform: translateX(-60px); }
     to { opacity: 1; transform: translateX(0); }
 }
 @keyframes scrollFadeLeft {
-    from { opacity: 0; transform: translateX(50px); }
+    from { opacity: 0; transform: translateX(60px); }
     to { opacity: 1; transform: translateX(0); }
 }
 
-.reveal { opacity: 0; }
+.reveal { opacity: 0; will-change: transform, opacity; }
 .revealed {
-    animation: scrollFadeUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: scrollFadeUp 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     animation-delay: var(--reveal-delay, 0ms);
 }
 
 #about .photo-about.revealed { animation-name: scrollFadeRight; }
 #about .text-about.revealed { animation-name: scrollFadeLeft; }
 
-/* Footer fix */
-.footer-credits.reveal { opacity: 0; }
-.footer-credits.revealed { animation: scrollFadeUp 1s ease forwards; }
+/* ── Footer Fix: Não desaparece ── */
+.footer-credits {
+    opacity: 0;
+    transition: opacity 1.5s ease-out, transform 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Quando ganha a classe revealed, ele fica visível para sempre */
+.footer-credits.revealed {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
 
 /* Arrow Bounce */
 .arrow-wrapper { animation: bounce 2s ease-in-out infinite; }
